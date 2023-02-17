@@ -53,7 +53,10 @@
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function (event) {
-        document.getElementById("btnStart").addEventListener("clisck", btnStartFunc);
+        document.getElementById("btnStart").addEventListener("click", btnStartFunc);
+        // setTimeout(function () {
+        //     alert("Congratulations! Your Time is " + appendMinutes.innerHTML + ":" + appendSeconds.innerHTML + "\n" + "Take a screenshot and post instragram with #digital-qube.com" );
+        //   }, 500);
         // document.getElementById("btnReset").addEventListener("click", btnResetFunc);
       });
       var game;
@@ -138,7 +141,7 @@
         if (solved) {
           clearInterval(intervalValue);
           setTimeout(function () {
-            alert("You solved it! Your Time is:" + appendMinutes.innerHTML + ":" + appendSeconds.innerHTML);
+            alert("Congratulations! Your Time is " + appendMinutes.innerHTML + ":" + appendSeconds.innerHTML + "\n" + "Take a screenshot and post it on instragram with #digital-qube.com" );
           }, 500);
         }
       };
