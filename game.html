@@ -10,15 +10,17 @@
     </style>
   </head>
   <body>
-    <div style="color:white; text-align: center;font-size:28px;font-weight: bold;font-family: 'Courier New', Courier, monospace;">
+    <div id="topMsgDiv" style="color:white; text-align: left;font-size:16px;font-weight: bold;font-family: 'Courier New', Courier, monospace;">
+        Win 200 Aed Amazon <br/>voucher if you <br/>unscramble the logo
+        <br/>
+    </div>
+    <div id="timerDiv" style="color:white; text-align: center;font-size:28px;font-weight: bold;font-family: 'Courier New', Courier, monospace;display: none;">
         Timer:<br/>
         <label id="minutes">00</label>:<label id="seconds">00</label>
         <br/>
-        <button id="btnStart">Start Game</button>
-        <button id="btnReset">Reset Game</button>
-        <br/>
-        <a target="_blank" style="color:white; text-align: center;font-size:12px;font-weight: bold;font-family: 'Courier New', Courier, monospace;" href="https://www.digital-qube.com/puzzle-terms-and-conditions">Terms and Conditions</a>
+        <!-- <button id="btnReset">Reset Game</button> -->
     </div>
+    <button id="btnStart" style="margin: 10px;">Start Game</button><br/>
     <div id="main" class="main">
       <img id="originalImg" src="https://static.wixstatic.com/media/278c82_89cf887319f64542af42465923f4c7f4~mv2.png" width="300px" height="300px"/>
       <canvas id="puzzle" width="300px" height="300px" style="display:none;"></canvas>
@@ -26,7 +28,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
         document.getElementById("btnStart").addEventListener("click", btnStartFunc);
-        document.getElementById("btnReset").addEventListener("click", btnResetFunc);
+        // document.getElementById("btnReset").addEventListener("click", btnResetFunc);
     });
 var game;
 var seconds = 0;
@@ -41,6 +43,10 @@ function btnStartFunc()
     drawTiles();
     if(intervalValue) clearInterval(intervalValue);
     intervalValue = setInterval(startTime,1000);
+    document.getElementById('topMsgDiv').style.display='none';
+    document.getElementById('timerDiv').style.display='inherit';
+    document.getElementById('btnStart').style.display='none';
+
     document.getElementById('originalImg').style.display='none';
     document.getElementById('puzzle').style.display='inherit';
 }
