@@ -1,180 +1,211 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Sliding Puzzle</title>
     <style>
-    .picture {
-      border: 1px solid black;
-    }
+      .picture {
+        border: 1px solid black;
+      }
     </style>
   </head>
   <body>
-    <div id="topMsgDiv" style="color:white; text-align: left;font-size:16px;font-weight: bold;font-family: 'Courier New', Courier, monospace;">
-        Win 200 Aed Amazon <br/>voucher if you <br/>unscramble the logo
-        <br/>
+    <div
+      id="topMsgDiv"
+      style="
+        color: white;
+        text-align: left;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+      "
+    >
+      Win 200 Aed Amazon <br />voucher if you <br />unscramble the logo
+      <br />
     </div>
-    <div id="timerDiv" style="color:white; text-align: center;font-size:28px;font-weight: bold;font-family: 'Courier New', Courier, monospace;display: none;">
-        Timer:<br/>
-        <label id="minutes">00</label>:<label id="seconds">00</label>
-        <br/>
-        <!-- <button id="btnReset">Reset Game</button> -->
+    <div
+      id="timerDiv"
+      style="
+        color: white;
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        display: none;
+      "
+    >
+      Timer:<br />
+      <label id="minutes">00</label>:<label id="seconds">00</label>
+      <br />
+      <!-- <button id="btnReset">Reset Game</button> -->
     </div>
-    <button id="btnStart" style="margin: 10px;">Start Game</button><br/>
+    <button id="btnStart" style="margin: 10px">Start Game</button><br />
     <div id="main" class="main">
-      <img id="originalImg" src="https://static.wixstatic.com/media/278c82_89cf887319f64542af42465923f4c7f4~mv2.png" width="300px" height="300px"/>
-      <canvas id="puzzle" width="300px" height="300px" style="display:none;"></canvas>
+      <img
+        id="originalImg"
+        src="https://static.wixstatic.com/media/278c82_89cf887319f64542af42465923f4c7f4~mv2.png"
+        width="300px"
+        height="300px"
+      />
+      <canvas id="puzzle" width="300px" height="300px" style="display: none"></canvas>
     </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) {
+    <script>
+      document.addEventListener("DOMContentLoaded", function (event) {
         document.getElementById("btnStart").addEventListener("click", btnStartFunc);
         // document.getElementById("btnReset").addEventListener("click", btnResetFunc);
-    });
-var game;
-var seconds = 0;
-var minutes = 0;
-var appendMinutes = document.getElementById('minutes');
-var appendSeconds = document.getElementById('seconds');
-var intervalValue; // to store timer values
+      });
+      var game;
+      var seconds = 0;
+      var minutes = 0;
+      var appendMinutes = document.getElementById("minutes");
+      var appendSeconds = document.getElementById("seconds");
+      var intervalValue; // to store timer values
 
-function btnStartFunc()
-{
-    // setBoard();
-    drawTiles();
-    if(intervalValue) clearInterval(intervalValue);
-    intervalValue = setInterval(startTime,1000);
-    document.getElementById('topMsgDiv').style.display='none';
-    document.getElementById('timerDiv').style.display='inherit';
-    document.getElementById('btnStart').style.display='none';
+      function btnStartFunc() {
+        // setBoard();
+        drawTiles();
+        if (intervalValue) clearInterval(intervalValue);
+        intervalValue = setInterval(startTime, 1000);
+        document.getElementById("topMsgDiv").style.display = "none";
+        document.getElementById("timerDiv").style.display = "inherit";
+        document.getElementById("btnStart").style.display = "none";
 
-    document.getElementById('originalImg').style.display='none';
-    document.getElementById('puzzle').style.display='inherit';
-}
+        document.getElementById("originalImg").style.display = "none";
+        document.getElementById("puzzle").style.display = "inherit";
+      }
 
-function btnResetFunc()
-{
-		clearInterval(intervalValue);
-		minutes = 0;
-		seconds = 0;
-		appendSeconds.innerHTML = "00";
-		appendMinutes.innerHTML = "00";
-        document.getElementById('originalImg').style.display='inherit';
-        document.getElementById('puzzle').style.display='none';
-}
+      function btnResetFunc() {
+        clearInterval(intervalValue);
+        minutes = 0;
+        seconds = 0;
+        appendSeconds.innerHTML = "00";
+        appendMinutes.innerHTML = "00";
+        document.getElementById("originalImg").style.display = "inherit";
+        document.getElementById("puzzle").style.display = "none";
+      }
 
-//
-// Timer Function
-//
+      //
+      // Timer Function
+      //
 
-function startTime() {
-	seconds++;
-	if(seconds < 9) appendSeconds.innerHTML = "0" + seconds;
-	if(seconds > 9) appendSeconds.innerHTML = seconds.toString();
+      function startTime() {
+        seconds++;
+        if (seconds < 9) appendSeconds.innerHTML = "0" + seconds;
+        if (seconds > 9) appendSeconds.innerHTML = seconds.toString();
 
-	if(seconds >= 59) 
-	{
-		seconds = 0
-		minutes++;
-		appendSeconds.innerHTML = "00";
-		if(minutes <= 9) appendMinutes.innerHTML = "0" + minutes;
-		if(minutes > 9) appendMinutes.innerHTML = minutes.toString();
-	}
-}
+        if (seconds >= 59) {
+          seconds = 0;
+          minutes++;
+          appendSeconds.innerHTML = "00";
+          if (minutes <= 9) appendMinutes.innerHTML = "0" + minutes;
+          if (minutes > 9) appendMinutes.innerHTML = minutes.toString();
+        }
+      }
+    </script>
+    <script>
+      var context = document.getElementById("puzzle").getContext("2d");
 
-</script>
-<script>
-var context = document.getElementById('puzzle').getContext('2d');
+      var img = new Image();
+      img.src = "https://static.wixstatic.com/media/278c82_a7bb0f5d4a514d25ab95567d268dac0c~mv2.png";
+      img.addEventListener("load", drawTiles, false);
 
-var img = new Image();
-img.src = 'https://static.wixstatic.com/media/278c82_a7bb0f5d4a514d25ab95567d268dac0c~mv2.png';
-img.addEventListener('load', drawTiles,false);
+      var boardSize = document.getElementById("puzzle").width;
+      var tileCount = 3;
 
-var boardSize = document.getElementById('puzzle').width;
-var tileCount = 3
+      var tileSize = boardSize / tileCount;
 
-var tileSize = boardSize / tileCount;
+      var clickLoc = new Object();
+      clickLoc.x = 0;
+      clickLoc.y = 0;
 
-var clickLoc = new Object;
-clickLoc.x = 0;
-clickLoc.y = 0;
+      var emptyLoc = new Object();
+      emptyLoc.x = 0;
+      emptyLoc.y = 0;
 
-var emptyLoc = new Object;
-emptyLoc.x = 0;
-emptyLoc.y = 0;
+      var solved = false;
 
-var solved = false;
+      var boardParts;
+      setBoard();
+      document.getElementById("puzzle").onclick = function (e) {
+        clickLoc.x = Math.floor((e.pageX - this.offsetLeft) / tileSize);
+        clickLoc.y = Math.floor((e.pageY - this.offsetTop) / tileSize);
+        if (distance(clickLoc.x, clickLoc.y, emptyLoc.x, emptyLoc.y) == 1) {
+          slideTile(emptyLoc, clickLoc);
+          drawTiles();
+        }
+        if (solved) {
+          clearInterval(intervalValue);
+          setTimeout(function () {
+            alert("You solved it! Your Time is:" + appendMinutes.innerHTML + ":" + appendSeconds.innerHTML);
+          }, 500);
+        }
+      };
 
-var boardParts;
-setBoard();
-document.getElementById('puzzle').onclick = function(e) {
-clickLoc.x = Math.floor((e.pageX - this.offsetLeft) / tileSize);
-clickLoc.y = Math.floor((e.pageY - this.offsetTop) / tileSize);
-if (distance(clickLoc.x, clickLoc.y, emptyLoc.x, emptyLoc.y) == 1) {
-slideTile(emptyLoc, clickLoc);
-drawTiles();
-}
-if (solved) {
-    clearInterval(intervalValue);
-    setTimeout(function() {alert("You solved it! Your Time is:" + appendMinutes.innerHTML + ":" + appendSeconds.innerHTML);}, 500);
-}
-};
+      function setBoard() {
+        boardParts = new Array(tileCount);
+        for (var i = 0; i < tileCount; ++i) {
+          boardParts[i] = new Array(tileCount);
+          for (var j = 0; j < tileCount; ++j) {
+            boardParts[i][j] = new Object();
+            boardParts[i][j].x = tileCount - 1 - i;
+            boardParts[i][j].y = tileCount - 1 - j;
+          }
+        }
+        emptyLoc.x = boardParts[tileCount - 1][tileCount - 1].x;
+        emptyLoc.y = boardParts[tileCount - 1][tileCount - 1].y;
+        solved = false;
+      }
 
-function setBoard() {
-boardParts = new Array(tileCount);
-for (var i = 0; i < tileCount; ++i) {
-boardParts[i] = new Array(tileCount);
-for (var j = 0; j < tileCount; ++j) {
-    boardParts[i][j] = new Object;
-    boardParts[i][j].x = (tileCount - 1) - i;
-    boardParts[i][j].y = (tileCount - 1) - j;
-}
-}
-emptyLoc.x = boardParts[tileCount - 1][tileCount - 1].x;
-emptyLoc.y = boardParts[tileCount - 1][tileCount - 1].y;
-solved = false;
-}
+      function drawTiles() {
+        context.clearRect(0, 0, boardSize, boardSize);
+        for (var i = 0; i < tileCount; ++i) {
+          for (var j = 0; j < tileCount; ++j) {
+            var x = boardParts[i][j].x;
+            var y = boardParts[i][j].y;
+            if (i != emptyLoc.x || j != emptyLoc.y || solved == true) {
+              context.drawImage(
+                img,
+                x * tileSize,
+                y * tileSize,
+                tileSize,
+                tileSize,
+                i * tileSize,
+                j * tileSize,
+                tileSize,
+                tileSize
+              );
+            }
+          }
+        }
+      }
 
-function drawTiles() {
-context.clearRect ( 0 , 0 , boardSize , boardSize );
-for (var i = 0; i < tileCount; ++i) {
-for (var j = 0; j < tileCount; ++j) {
-    var x = boardParts[i][j].x;
-    var y = boardParts[i][j].y;
-    if(i != emptyLoc.x || j != emptyLoc.y || solved == true) {
-    context.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize,
-        i * tileSize, j * tileSize, tileSize, tileSize);
-    }
-}
-}
-}
+      function distance(x1, y1, x2, y2) {
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+      }
 
-function distance(x1, y1, x2, y2) {
-return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-}
+      function slideTile(toLoc, fromLoc) {
+        if (!solved) {
+          boardParts[toLoc.x][toLoc.y].x = boardParts[fromLoc.x][fromLoc.y].x;
+          boardParts[toLoc.x][toLoc.y].y = boardParts[fromLoc.x][fromLoc.y].y;
+          boardParts[fromLoc.x][fromLoc.y].x = tileCount - 1;
+          boardParts[fromLoc.x][fromLoc.y].y = tileCount - 1;
+          toLoc.x = fromLoc.x;
+          toLoc.y = fromLoc.y;
+          checkSolved();
+        }
+      }
 
-function slideTile(toLoc, fromLoc) {
-if (!solved) {
-boardParts[toLoc.x][toLoc.y].x = boardParts[fromLoc.x][fromLoc.y].x;
-boardParts[toLoc.x][toLoc.y].y = boardParts[fromLoc.x][fromLoc.y].y;
-boardParts[fromLoc.x][fromLoc.y].x = tileCount - 1;
-boardParts[fromLoc.x][fromLoc.y].y = tileCount - 1;
-toLoc.x = fromLoc.x;
-toLoc.y = fromLoc.y;
-checkSolved();
-}
-}
-
-function checkSolved() {
-var flag = true;
-for (var i = 0; i < tileCount; ++i) {
-for (var j = 0; j < tileCount; ++j) {
-    if (boardParts[i][j].x != i || boardParts[i][j].y != j) {
-    flag = false;
-    }
-}
-}
-solved = flag;
-}
-
-</script>
-  </body></html>
+      function checkSolved() {
+        var flag = true;
+        for (var i = 0; i < tileCount; ++i) {
+          for (var j = 0; j < tileCount; ++j) {
+            if (boardParts[i][j].x != i || boardParts[i][j].y != j) {
+              flag = false;
+            }
+          }
+        }
+        solved = flag;
+      }
+    </script>
+  </body>
+</html>
