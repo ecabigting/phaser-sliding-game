@@ -7,7 +7,9 @@
       .picture {
         border: 1px solid black;
       }
-      /* 0, 107, 247, 0.2 */
+      #originalImg {
+        box-shadow: 0 0 44px 0 rgba(0, 107, 247, 0.2), 0 0 44px 0 rgba(0, 107, 247, 0.2);
+      }
       #puzzle {
         margin:0 auto;
         display: block;
@@ -56,10 +58,10 @@
         src="https://static.wixstatic.com/media/278c82_7fc7fece7f534a80a66bd0fe4713c20c~mv2.jpg"
         width="300px"
         height="300px"
-        style="display:none;"
+        style="display:block;margin:0 auto;"
         
       />
-      <canvas id="puzzle" width="300px" height="300px" style="margin:0 auto;display:block;"></canvas>
+      <canvas id="puzzle" width="300px" height="300px" style="margin:0 auto;display:none;"></canvas>
 <br/>
     <button id="btnStart" style="margin: auto;display:block;">Start Game</button><br />
     </div>
@@ -79,7 +81,7 @@
       var intervalValue; // to store timer values
 
       function btnStartFunc() {
-        // setBoard();
+        setBoard();
         drawTiles();
         if (intervalValue) clearInterval(intervalValue);
         intervalValue = setInterval(startTime, 1000);
@@ -124,7 +126,7 @@
 
       var img = new Image();
       img.src = "https://static.wixstatic.com/media/278c82_a7bb0f5d4a514d25ab95567d268dac0c~mv2.png";
-      img.addEventListener("load", drawTiles, false);
+      //img.addEventListener("load", drawTiles, false);
 
       var boardSize = document.getElementById("puzzle").width;
       var tileCount = 3;
@@ -142,7 +144,6 @@
       var solved = false;
 
       var boardParts;
-      setBoard();
       document.getElementById("puzzle").onclick = function (e) {
         clickLoc.x = Math.floor((e.pageX - this.offsetLeft) / tileSize);
         clickLoc.y = Math.floor((e.pageY - this.offsetTop) / tileSize);
@@ -163,6 +164,7 @@
       };
 
       function setBoard() {
+
         boardParts = new Array(tileCount);
         for (var i = 0; i < tileCount; ++i) {
           boardParts[i] = new Array(tileCount);
@@ -172,8 +174,10 @@
             boardParts[i][j].y = tileCount - 1 - j;
           }
         }
+
         emptyLoc.x = boardParts[tileCount - 1][tileCount - 1].x;
         emptyLoc.y = boardParts[tileCount - 1][tileCount - 1].y;
+        console.table(boardParts);
         solved = false;
       }
 
@@ -199,7 +203,7 @@
           }
         }
       }
-
+      
       function distance(x1, y1, x2, y2) {
         return Math.abs(x1 - x2) + Math.abs(y1 - y2);
       }
